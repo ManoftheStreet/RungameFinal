@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private Animator anim;
     private SpriteRenderer spriteRenderer;
     private float jumpCount = 0;
-   // private bool isGrounded = false; // ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö ³ªÅ¸³¿
+    private bool isGrounded = false; // ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö ³ªÅ¸³¿
 
     bool jumpKey;
     float moveKey;
@@ -70,22 +70,29 @@ public class Player : MonoBehaviour
         {
             rb.velocity = rb.velocity * 0.5f;
         }
-
-        //anim.SetTrigger("doJump");
-        //anim.SetBool("Grounded", isGrounded);
+        if (rb.velocity.y < 0f)
+        {
+            anim.SetBool("isFall", true);
+        }
+        else
+        {
+            anim.SetBool("isFall", false);
+            anim.SetBool("isJump", !isGrounded);
+        }
+        //anim.SetBool("isJump", !isGrounded);
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.contacts[0].normal.y > 0.7f)
         {
-            //isGrounded = true;
+            isGrounded = true;
             jumpCount = 0;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //isGrounded = false;
+        isGrounded = false;
     }
 }
     
