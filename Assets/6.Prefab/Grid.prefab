@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342543486770611582}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 342543487378291400}
   - component: {fileID: 342543487378291401}
   - component: {fileID: 342543487378291403}
+  - component: {fileID: 8863254953851042995}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -2693,8 +2694,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1837432981
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -2730,3 +2731,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 35.1, y: 7.03}
   m_EdgeRadius: 0
+--- !u!114 &8863254953851042995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342543487378291399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d541e77f8d0374680a667a3f752e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
