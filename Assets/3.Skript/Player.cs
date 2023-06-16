@@ -57,11 +57,26 @@ public class Player : MonoBehaviour
             {
                 isPlayerMoving = true;
                 spriteRenderer.flipX = moveKey == -1f; //왼쪽이면 -1 이여서 양수 나오고 오른쪽이면 음수여서 false반환
-                transform.Translate(Vector3.right * moveKey * speed * Time.deltaTime);
+               
+                
                 anim.SetBool("isRun", true);
             }
         }
-        
+        //float horizontalVelocity = moveKey * speed;
+        //rb.velocity = new Vector2(horizontalVelocity, rb.velocity.y);
+        if (moveKey > 0 && isGrounded)
+        {
+            speed = 13; 
+            transform.Translate(Vector3.right * moveKey * speed * Time.deltaTime);
+
+        }
+        else
+        {
+            speed = 5;
+            transform.Translate(Vector3.right * moveKey * speed * Time.deltaTime);
+        }
+        //transform.Translate(Vector3.right * moveKey * speed * Time.deltaTime);
+
     }
     public void Jump()
     {
@@ -70,7 +85,7 @@ public class Player : MonoBehaviour
         {
             jumpCount++;
             rb.velocity = Vector2.zero;
-            speed =5f;
+            
             rb.AddForce(new Vector2(0f, jumpForce));
 
         }
@@ -89,6 +104,7 @@ public class Player : MonoBehaviour
             anim.SetBool("isFall", false);
             anim.SetBool("isJump", !isGrounded);
         }
+        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -97,13 +113,14 @@ public class Player : MonoBehaviour
 
             isGrounded = true;
             jumpCount = 0;
-            speed = 9f;
+            speed = 13f;
 
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         isGrounded = false;
+        speed = 5f;
         
     }
     private void Die()

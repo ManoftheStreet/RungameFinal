@@ -12,8 +12,8 @@ public class PlatformSpawner : MonoBehaviour {
 
     public float yMin = 3.8f; // 배치할 위치의 최소 y값
     public float yMax = 4.5f; // 배치할 위치의 최대 y값
-    public float xMin = 15f; // 배치할 위치의 x 값
-    public float xMax = 22f; // 배치할 위치의 x 값
+    //private float xMin = 15f; // 배치할 위치의 x 값
+    //private float xMax = 22f; // 배치할 위치의 x 값
 
     public GameObject[] platforms; // 미리 생성한 발판들
     public int currentIndex = 0; // 사용할 현재 순번의 발판
@@ -50,7 +50,9 @@ public class PlatformSpawner : MonoBehaviour {
             timeBetSpawn = Random.Range(timeBetSpawnMin,timeBetSpawnMax);
 
             float yPos = Random.Range(yMin,yMax);
-            float xPos = Random.Range(xMin,xMax);
+            //float xPos = Random.Range(xMin,xMax);
+            float xPos = 50;
+
 
             platforms[currentIndex].SetActive(false);
             platforms[currentIndex].SetActive(true);
