@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -7,29 +9,37 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
     public static GameManager instance; // 싱글톤을 할당할 전역 변수
 
+    public float scoreIncreaseInterval = 0.1f;
     public bool isGameover = false; // 게임 오버 상태
-    //public Text scoreText; // 점수를 출력할 UI 텍스트
-    //public GameObject gameoverUI; // 게임 오버시 활성화 할 UI 게임 오브젝트
 
-    private int score = 0; // 게임 점수
+    public Text scoreText; // 점수를 출력할 UI 텍스트
+    public GameObject gameoverUI; // 게임 오버시 활성화 할 UI 게임 오브젝트
+    public Text recordText;
+    public Text gameoverScoreText;
 
-    // 게임 시작과 동시에 싱글톤을 구성
+    private float score = 0; // 게임 점수
+
+ 
+    Player player;
+    bool isGameOver;
+
+    //BGM
+    public AudioSource endSound;
+    public AudioSource gameSound;
+    public AudioSource winSound;
+
     void Awake() {
-        // 싱글톤 변수 instance가 비어있는가?
         if (instance == null)
         {
-            // instance가 비어있다면(null) 그곳에 자기 자신을 할당
             instance = this;
         }
         else
         {
-            // instance에 이미 다른 GameManager 오브젝트가 할당되어 있는 경우
 
-            // 씬에 두개 이상의 GameManager 오브젝트가 존재한다는 의미.
-            // 싱글톤 오브젝트는 하나만 존재해야 하므로 자신의 게임 오브젝트를 파괴
             Debug.LogWarning("씬에 두개 이상의 게임 매니저가 존재합니다!");
             Destroy(gameObject);
         }
+        player = FindObjectOfType<Player>();
     }
 
     void Update() {
@@ -37,20 +47,81 @@ public class GameManager : MonoBehaviour {
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        AddScore();
     }
 
     // 점수를 증가시키는 메서드
-    public void AddScore(int newScore) {
+    public void AddScore()
+    {
+        // add score directly in the Update function
         if (!isGameover)
         {
-            score += newScore;
-            //scoreText.text = "Score : " + score;
+            score += 100 * Time.deltaTime; // Increase by 100 per second
+            int roundedScore = Mathf.RoundToInt(score / 10) * 10;  // Round to nearest 10
+            scoreText.text = roundedScore.ToString("N0");
         }
     }
+  
+    /*public void Win()
+    {
+        isGameOver = true;
+        player.gameObject.SetActive(false);
+        winText.SetActive(true);
+        timeText.gameObject.SetActive(false);
+        gameSound.Stop();
+        winSound.Play();
+        GameObject joypad = GameObject.Find("FloatingJoystick"); // 이름으로 게임 오브젝트 찾기
+        if (joypad != null)
+        { // 찾았을 경우
+            joypad.SetActive(false); // DodgeButton을 비활성화
+        }
+        GameObject DodgeButton = GameObject.Find("DodgeButton"); // 이름으로 게임 오브젝트 찾기
+        if (DodgeButton != null)
+        { // 찾았을 경우
+            DodgeButton.SetActive(false); // DodgeButton을 비활성화
+        }
+
+        float bestTime = PlayerPrefs.GetFloat("Best Time");
+        if (surviveTime > bestTime)
+        {
+            bestTime = surviveTime;
+            PlayerPrefs.SetFloat("Best Time", bestTime);
+        }
+       
+    }*/
 
     // 플레이어 캐릭터가 사망시 게임 오버를 실행하는 메서드
     public void OnPlayerDead() {
         isGameover = true;
-        //gameoverUI.SetActive(true);
+        gameoverUI.SetActive(true);
+        scoreText.gameObject.SetActive(false);
+        gameSound.Stop();
+        endSound.Play();
+
+        float bestScore = PlayerPrefs.GetFloat("Best Time");
+        if (score > bestScore)
+        {
+            bestScore = score;
+            PlayerPrefs.SetFloat("Best Time", bestScore);
+        }
+        int roundedScore = Mathf.RoundToInt(score / 10) * 10;  // Round to nearest 10
+        int roundedBestScore = Mathf.RoundToInt(bestScore / 10) * 10;  // Round to nearest 10
+        recordText.text = "최고 점수: " + roundedBestScore.ToString("N0");
+        gameoverScoreText.text = "현재 점수: " + roundedScore.ToString("N0");
+        GameObject joypad = GameObject.Find("JumpButton (1)"); // 이름으로 게임 오브젝트 찾기
+        if (joypad != null)
+        { // 찾았을 경우
+            joypad.SetActive(false); // DodgeButton을 비활성화
+        }
+        GameObject DodgeButton = GameObject.Find("AttButton"); // 이름으로 게임 오브젝트 찾기
+        if (DodgeButton != null)
+        { // 찾았을 경우
+            DodgeButton.SetActive(false); // DodgeButton을 비활성화
+        }
+
     }
+    
 }
+
+
+

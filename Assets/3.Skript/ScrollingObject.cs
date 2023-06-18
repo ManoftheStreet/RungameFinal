@@ -6,7 +6,7 @@ public class ScrollingObject : MonoBehaviour {
     Player player;
     private void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        //player = GameObject.Find("Player").GetComponent<Player>();
 
     }
     private void Update() {
@@ -31,14 +31,14 @@ public class ScrollingObject : MonoBehaviour {
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("Enermy"))
         {
             collision.transform.SetParent(transform);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("Enermy"))
         {
             collision.transform.SetParent(null);
         }

@@ -7,15 +7,18 @@ TagManager:
   - Ground
   - FxTemporaire
   - Dead
+  - Enermy
+  - Wall
+  - Melee
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - deadLayer
+  - Enemy
   - 
   - 
   - 
